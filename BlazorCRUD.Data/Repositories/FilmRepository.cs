@@ -23,9 +23,12 @@ namespace BlazorCRUD.Data.Repositories
             return new SqlConnection(_connectionString);
         }
 
-        public Task<bool> DeleteFilm(int id)
+        public async Task<bool> DeleteFilm(int id)
         {
-            throw new NotImplementedException();
+            using var db = DbConnection();
+            var query = @"DELETE FROM Films WHERE Id=@Id";
+            var result = await db.ExecuteAsync(query, new { id });
+            return result > 0;
         }
 
         public async Task<IEnumerable<Film>> GetAllFilms()
