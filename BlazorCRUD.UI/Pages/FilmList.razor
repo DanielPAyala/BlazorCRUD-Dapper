@@ -1,0 +1,51 @@
+﻿@page "/filmlist"
+@using Model
+@using Interfaces
+@inject IFilmService filmService
+
+<h1>FilmList</h1>
+
+<p>This page shows a list of all files.</p>
+
+@if (films == null)
+{
+    <p></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Director</th>
+                <th>Release Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var film in films)
+            {
+                <tr>
+                    <td>@film.Title</td>
+                    <td>@film.Director</td>
+                    <td>@film.ReleaseDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Film> films;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            films = await filmService.GetAllFilms();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+}

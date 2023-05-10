@@ -1,0 +1,44 @@
+﻿@page "/filmdetails"
+@using Interfaces;
+@using Model
+
+@inject IFilmService filmService
+
+<h1>Film Details</h1>
+
+<EditForm Model="@film">
+    <table class="table">
+        <tr>
+            <td>Title:</td>
+            <td><input type="text" @bind="film.Title" /></td>
+        </tr>
+        <tr>
+            <td>Director:</td>
+            <td><input type="text" @bind="film.Director" /></td>
+        </tr>
+        <tr>
+            <td>release Date:</td>
+            <td><input type="date" @bind="film.ReleaseDate" /></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Save" @onclick="SaveFile" />
+                <input type="button" value="Cancel" @onclick="CancelFile" />
+            </td>
+        </tr>
+    </table>
+</EditForm>
+
+@code {
+    Film film = new Film();
+
+    private void CancelFile()
+    {
+
+    }
+
+    private async Task SaveFile()
+    {
+        await filmService.SaveFilm(film);
+    }
+}
