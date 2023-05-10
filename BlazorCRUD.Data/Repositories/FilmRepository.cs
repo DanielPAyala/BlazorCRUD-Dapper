@@ -35,9 +35,11 @@ namespace BlazorCRUD.Data.Repositories
             return await db.QueryAsync<Film>(query.ToString());
         }
 
-        public Task<Film> GetFilmDetails(int id)
+        public async Task<Film> GetFilmDetails(int id)
         {
-            throw new NotImplementedException();
+            using var db = DbConnection();
+            var query = "SELECT Id, Title, Director, ReleaseDate FROM Films WHERE Id = @id";
+            return await db.QueryFirstOrDefaultAsync<Film>(query.ToString(), new { id });
         }
 
         public async Task<bool> InsertFilm(Film film)
@@ -55,9 +57,20 @@ namespace BlazorCRUD.Data.Repositories
             return result > 0;
         }
 
-        public Task<bool> UpdateFilm(Film film)
+        public async Task<bool> UpdateFilm(Film film)
         {
-            throw new NotImplementedException();
+            using var db = DbConnection();
+            var query = @"UPDATE Films SET Title=@Title, Director=@Director, ReleaseDate=@ReleaseDate WHERE Id=@Id";
+
+            var result = await db.ExecuteAsync(query.ToString(), new
+            {
+                film.Title,
+                film.Director,
+                film.ReleaseDate,
+                film.Id
+            });
+
+            return result > 0;
         }
     }
 }

@@ -19,6 +19,8 @@ else
                 <th>Title</th>
                 <th>Director</th>
                 <th>Release Date</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +30,8 @@ else
                     <td>@film.Title</td>
                     <td>@film.Director</td>
                     <td>@film.ReleaseDate</td>
+                    <td><a href="/filmdetails/@film.Id" class="btn btn-warning text-white">Editar</a></td>
+                    <td></td>
                 </tr>
             }
         </tbody>
